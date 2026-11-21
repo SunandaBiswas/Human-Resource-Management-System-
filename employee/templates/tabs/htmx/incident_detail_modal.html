@@ -1,0 +1,22 @@
+<div class="incident-modal-content">
+	<h4 class="mb-3">{{ incident.title }}</h4>
+
+	<p><strong>Issue Date:</strong> {{ incident.issue_date }}</p>
+	<p><strong>Involved Member:</strong> {{ incident.involved }}</p>
+	<p><strong>Description:</strong><br>{{ incident.description }}</p>
+
+	{% if incident.uploaded_file %}
+		<p><strong>Document:</strong></p>
+		{% if incident.uploaded_file.url|lower|endswith:".jpg" or
+			  incident.uploaded_file.url|lower|endswith:".png" or
+			  incident.uploaded_file.url|lower|endswith:".jpeg" %}
+			<img src="{{ incident.uploaded_file.url }}" alt="Uploaded Image" style="max-width: 100%; height: auto;" />
+		{% else %}
+			<a href="{{ incident.uploaded_file.url }}" target="_blank" class="btn btn-outline-primary mt-2">
+				Download File
+			</a>
+		{% endif %}
+	{% else %}
+		<p><em>No document uploaded.</em></p>
+	{% endif %}
+</div>

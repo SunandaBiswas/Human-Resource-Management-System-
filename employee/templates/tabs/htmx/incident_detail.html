@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>{{ incident.title }}</title>
+</head>
+<body>
+   <h1>{{ incident.title }}</h1>
+   <p><strong>Issue Date:</strong> {{ incident.issue_date }}</p>
+   <p><strong>Involved:</strong> {{ incident.involved }}</p>
+   <p><strong>Description:</strong> {{ incident.description }}</p>
+
+
+   {% if incident.uploaded_file %}
+       <h3>Attached File:</h3>
+       {% if incident.uploaded_file.url.endswith ".jpg" or incident.uploaded_file.url.endswith ".png" %}
+           <img src="{{ incident.uploaded_file.url }}" alt="Incident Image" style="max-width:500px;">
+       {% elif incident.uploaded_file.url.endswith ".mp4" %}
+           <video controls width="500">
+               <source src="{{ incident.uploaded_file.url }}" type="video/mp4">
+               Your browser does not support the video tag.
+           </video>
+       {% else %}
+           <a href="{{ incident.uploaded_file.url }}" download>Download File</a>
+       {% endif %}
+   {% endif %}
+</body>
+</html>
+

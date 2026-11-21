@@ -1,0 +1,33 @@
+<div>
+    <p><strong>Title:</strong> {{ incident.title }}</p>
+    <p><strong>Issue Date:</strong> {{ incident.issue_date }}</p>
+
+    <p><strong>Involved Members:</strong>
+<!--        {% with members=incident.involved_member %}-->
+<!--            {% if members %}-->
+<!--                {% for person in members %}-->
+<!--                    {{ person.name|default:person }}{% if not forloop.last %}, {% endif %}-->
+<!--                {% endfor %}-->
+<!--            {% else %}-->
+<!--                N/A-->
+<!--            {% endif %}-->
+<!--        {% endwith %}-->
+
+
+            {% if incident.involved_member %}
+                {{incident.involved_member}}
+            {% else %}
+                N/A
+            {% endif %}
+    </p>
+
+    <p><strong>Description:</strong><br>{{ incident.description }}</p>
+
+        <p><strong>Attached File:</strong><br>
+    {% if incident.document %}
+            <a href="{{ incident.document.url }}" target="_blank">
+                {{ incident.document.name|cut:"employee/documents/" }}
+            </a>
+        </p>
+    {% endif %}
+</div>

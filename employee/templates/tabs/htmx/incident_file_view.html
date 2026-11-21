@@ -1,0 +1,55 @@
+{% load i18n %} {% load static %} {% load aizfilters %}
+
+<div class="oh-modal__dialog-header pb-0 d-flex justify-between align-center">
+  <h3>{{ incident.title }}</h3>
+  <button class="oh-modal__close" onclick="closeModal()" aria-label="Close">
+    <ion-icon name="close-outline"></ion-icon>
+  </button>
+</div>
+
+<div class="oh-modal__dialog-body">
+  <p><strong>Issue Date:</strong> {{ incident.created_at|date:"F d, Y" }}</p>
+  <p><strong>Involved:</strong> {{ incident.involved_member }}</p>
+  <p><strong>Description:</strong></p>
+  <p>{{ incident.description }}</p>
+
+  {% if incident.document %}
+    <hr/>
+    <p><strong>Attachment:</strong></p>
+
+    {% if file_extension in 'pdf txt docx xlsx' %}
+      <embed
+        src="data:{{ content_type }};base64,{{ file_content|base64_encode }}"
+        type="{{ content_type }}"
+        width="100%"
+        height="500px"
+      />
+    {% elif file_extension in 'jpg jpeg png webp' %}
+      <img
+        src="data:{{ content_type }};base64,{{ file_content|base64_encode }}"
+        alt="Preview"
+        class="img-fluid"
+        style="width: 100%; height: auto;"
+      />
+    {% elif file_extension == 'mp4' %}
+      <video width="100%" height="auto" controls>
+        <source src="{{ incident.document.url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    {% else %}
+      <p>{% trans "File format not supported for preview." %}</p>
+      <a class="btn btn-primary mt-2" href="{{ incident.document.url }}" target="_blank" download>Download File</a>
+    {% endif %}
+  {% else %}
+    <div class="oh-not-found">
+      <img src="{% static 'images/ui/document.png' %}" width="100" alt="No document" />
+      <h4>{% trans "No Document to view." %}</h4>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+function closeModal() {
+  document.querySelector('#objectCreateModalTarget').innerHTML = '';
+}
+</script>

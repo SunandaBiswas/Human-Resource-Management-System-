@@ -1,0 +1,11 @@
+<div>
+	<p><strong>Title:</strong> {{ incident.title }}</p>
+	<p><strong>Issue Date:</strong> {{ incident.issue_date }}</p>
+	<p><strong>Involved:</strong> {{ incident.involved }}</p>
+	<p><strong>Description:</strong> {{ incident.description }}</p>
+	{% if incident.uploaded_file %}
+		<p><strong>File:</strong> <a href="{{ incident.uploaded_file.url }}" target="_blank">Download</a></p>
+	{% else %}
+		<p><em>No file uploaded.</em></p>
+	{% endif %}
+</div>

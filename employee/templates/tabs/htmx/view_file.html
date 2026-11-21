@@ -1,0 +1,31 @@
+<div class="mb-3">
+  <h5>{{ document.title }}</h5>
+
+  {% if document.issue_date %}
+  <p><strong>{% trans "Issue Date" %}:</strong> {{ document.issue_date }}</p>
+  {% endif %}
+
+  {% if document.involved_member %}
+  <p><strong>{% trans "Involved" %}:</strong> {{ document.involved_member }}</p>
+  {% endif %}
+
+  {% if document.description %}
+  <p><strong>{% trans "Description" %}:</strong><br>{{ document.description }}</p>
+  {% endif %}
+</div>
+<div class="modal-body">
+  <div class="card p-3 mb-4">
+    <h5>{{ document.title }}</h5>
+    <p><strong>{% trans "Issue Date" %}:</strong> {{ document.issue_date }}</p>
+    <p><strong>{% trans "Involved" %}:</strong> {{ document.involved_member }}</p>
+    <p><strong>{% trans "Description" %}:</strong><br>{{ document.description }}</p>
+  </div>
+
+  {% if file_extension in 'pdf txt docx xlsx' %}
+  <embed src="data:{{ content_type }};base64,{{ file_content|base64_encode }}" type="{{ content_type }}" width="100%" height="500px" />
+  {% elif file_extension in 'jpg jpeg png webp' %}
+  <img src="data:{{ content_type }};base64,{{ file_content|base64_encode }}" alt="Preview" class="img-fluid" style="width: 100%; height: auto;" />
+  {% else %}
+  <p>{% trans "File format not supported for preview." %}</p>
+  {% endif %}
+</div>

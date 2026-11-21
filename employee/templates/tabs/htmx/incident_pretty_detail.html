@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">{{ incident.title }}</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Issue Date:</strong> {{ incident.issue_date }}</p>
+
+            <p><strong>Involved Persons:</strong>
+                {% if incident.involved_persons.all %}
+                    {% for person in incident.involved_persons.all %}
+                        {{ person }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                {% else %}
+                    None
+                {% endif %}
+            </p>
+
+            <p><strong>Description:</strong><br>{{ incident.description|linebreaks }}</p>
+
+            {% if incident.uploaded_file %}
+                <hr>
+                <p><strong>Attached File:</strong></p>
+                {% with file=incident.uploaded_file %}
+                    {% if file.url|lower|endswith:".jpg" or file.url|lower|endswith:".jpeg" or file.url|lower|endswith:".png" or file.url|lower|endswith:".gif" %}
+                        <img src="{{ file.url }}" alt="Uploaded Image" class="img-fluid" style="max-height: 400px;">
+                    {% elif file.url|lower|endswith:".mp4" or file.url|lower|endswith:".webm" %}
+                        <video controls class="w-100" style="max-height: 400px;">
+                            <source src="{{ file.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    {% else %}
+                        <a href="{{ file.url }}" class="btn btn-outline-secondary" download>Download File</a>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
